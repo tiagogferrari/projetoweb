@@ -1,7 +1,8 @@
 const { DataTypes } = require("sequelize")
 const sequelize = require("../helpers/bd")
+const { func } = require("joi")
 
-const UsuarioModel = sequelize.define('User', {
+const UsuarioModel = sequelize.define('Usuario', {
     id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
@@ -23,3 +24,91 @@ const UsuarioModel = sequelize.define('User', {
         allowNull: false,
     },
 })
+
+module.exports = {
+    listar: async function () {
+        const usuarios = await UsuarioModel.findAll()
+        return usuarios;
+    },
+
+    salvar: async function (obj) {
+        return await UsuarioModel.create({
+            nomeusuario: obj.nomeusuario,
+            senha: obj.senha,
+        })
+    },
+
+    atualizar: async function (nomeusuario, obj) {
+        return await UsuarioModel.atualizar(
+            { nomeusuario: obj.nomeusuario, senha: obj.senha },
+            { where: { nomeusuario: nomeusuario } }
+        )
+    },
+
+    trocarNome: async function (nomeusuario, nomeusuario) {
+        return await UsuarioModel.atualizar(
+            { nomeusuario: nomeusuario },
+            { where: { nomeusuario: nomeusuario } }
+        )
+    },
+
+    trocarSenha: async function (nomeusuario, senha) {
+        return await UsuarioModel.atualizar(
+            { senha: senha },
+            { where: { nomeusuario: nomeusuario } }
+        )
+    },
+
+    excluir: async function (nomeusuario) {
+        return await UsuarioModel.destroy(
+            { where: { nomeusuario: nomeusuario } }
+        )
+    },
+
+    buscarId: async function (id) {
+        return await UsuarioModel.findByPk(id)
+    },
+
+    buscarNome: async function (nomeusuario) {
+        return await UsuarioModel.findOne(
+            { where: { nomeusuario: nomeusuario } }
+        )
+    },
+
+    verificarCadastro: async function (obj) {
+        return await UsuarioModel.findOne(
+            {
+                where: {
+                    nomeusuario: obj.nomeusuario,
+                    senha: obj.senha,
+                }
+            }
+        )
+    },
+
+    verificarAdm: async function (nomeusuario) {
+        return (
+            await UsuarioModel.findOne(
+                { where: { nomeusuario: nomeusuario } }
+
+            )
+        ).admnistrador
+
+    },
+
+    tornarAdm: async function (nomeusuario) {
+        return await UsuarioModel.update(
+            { admnistrador: true },
+            { where: { nomeusuario: nomeusuario } }
+        )
+    },
+
+    retirarAdm: async function (nomeusuario) {
+        return await UsuarioModel.update(
+            { admnistrador: false },
+            { where: { nomeusuario: nomeusuario } }
+        )    
+    },
+
+    Model: UsuarioModel
+}

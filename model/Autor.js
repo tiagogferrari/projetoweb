@@ -1,4 +1,4 @@
-const { DataTypes } = require("sequelize")
+const { DataTypes, Model } = require("sequelize")
 const sequelize = require("../helpers/bd")
 
 const AutorModel = sequelize.define('Autor', {
@@ -14,3 +14,42 @@ const AutorModel = sequelize.define('Autor', {
         allowNull: false,
     },
 })
+
+module.exports = {
+    listar: async function () {
+        const autores = await AutorModel.findAll()
+        return autores
+    },
+
+    salvar: async function (nomeautor) {
+        const autor = await AutorModel.create(
+            { nomeautor: nomeautor}
+        )
+        return autor;
+    },
+
+    atualizar: async function (nomeautor, nomenovo) {
+        return await AutorModel.atualizar(
+            { nomeautor: nomenovo },
+            { where: { nomeautor: nomeautor } }
+        )
+    },
+
+    excluir: async function (nomeautor) {
+        return await AutorModel.destroy(
+            { where: { nomeautor: nomeautor } }
+        )
+    },
+
+    buscarId: async function (id) {
+        return await AutorModel.findByPk(id)
+    },
+
+    buscarNome: async function (nomeautor) {
+        return await AutorModel.findOne(
+            { where: { nomeautor: nomeautor } }
+        )
+    },
+
+    Model : AutorModel
+}
