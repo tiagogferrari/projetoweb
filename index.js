@@ -5,7 +5,7 @@ const sequelize = require("./helpers/bd")
 
 const app = express()
 app.use(express.json())
-app.use('/install', require("./control/installapi"))
+app.use('/install', require("./control/Installapi"))
 
 app.listen(3000, () => {
     console.log('Working... http://localhost:3000')
