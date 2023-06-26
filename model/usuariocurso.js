@@ -23,6 +23,14 @@ module.exports = {
         return inscricoes
     },
 
+    listarPag: async function (limite, pagina) {
+        const offset = limite * (pagina - 1)
+        return await UsuariocursoModel.findAndCountAll({
+            offset,
+            limite
+        })
+    },
+
     salvar: async function (usuario, curso) {
         const inscricao = await UsuariocursoModel.create(
             {
@@ -40,16 +48,35 @@ module.exports = {
                 curso: obj.curso
             }
         )
+        return inscricao
     },
 
     excluirId: async function (idusuario, idcurso) {
-        return await UsuariocursoModel.destroy(
-            {
-                where: {
-                    idusuario: idusuario,
-                    idcurso: idcurso
-                }
+        await UsuariocursoModel.destroy({
+            where: {
+                usuario: idusuario,
+                curso: idcurso
             }
+        });
+    },
+
+    buscarIdUsuario: async function (id) {
+        return await UsuariocursoModel.findAndCountAll({
+            where:
+            {
+                usuario: id
+            }
+        }
+        )
+    },
+
+    buscarIdCurso: async function (id) {
+        return await UsuariocursoModel.findAndCountAll({
+            where:
+            {
+                curso: id
+            }
+        }
         )
     },
 
