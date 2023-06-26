@@ -39,6 +39,36 @@ module.exports = {
         return cursos
     },
 
+    listarPag: async function (limite, pagina) {
+        const offset = limite * (pagina - 1)
+        return await CursoModel.findAndCountAll({
+            offset,
+            limite
+        })
+    },
+
+    listarPagCat: async function (limite, pagina, categoriaId) {
+        const curso = await CursoModel.findAndCountAll({
+            where: {
+                categoria: categoriaId
+            },
+            offset: limite * (pag - 1),
+            limite: limite
+        })
+        return curso
+    },
+
+    listarPagAut: async function (limite, pagina, autorId) {
+        const curso = await CursoModel.findAndCountAll({
+            where: {
+                autor: autorId
+            },
+            offset: limite * (pag - 1),
+            limite: limite
+        });
+        return products;
+    },
+
     salvar: async function (nomecurso, descricao, autor, categoria) {
         const curso = await CursoModel.create(
             {
@@ -65,6 +95,13 @@ module.exports = {
         return await CursoModel.atualizar(
             { nomecurso: obj.nomecurso, descricao: obj.descricao },
             { where: { nomecurso: nomecurso } })
+    },
+
+    atualizarPorId: async function (id, obj) {
+        return await CursoModel.atualizar(
+            { nomecurso: obj.nomecurso, descricao: obj.descricao },
+            { where: { id: id } }
+        )
     },
 
     /*
@@ -98,6 +135,12 @@ module.exports = {
     excluir: async function (nomecurso) {
         return await CursoModel.destroy(
             { where: { nomecurso: nomecurso } }
+        )
+    },
+
+    excluirPorId: async function (id) {
+        return await CursoModel.destroy(
+            { where: { id: id } }
         )
     },
 

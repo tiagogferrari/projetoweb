@@ -23,7 +23,7 @@ module.exports = {
     },
 
     listarPag: async function (limite, pagina) {
-        const offset = limit * (pagina - 1)
+        const offset = limite * (pagina - 1)
         return await CategoriaModel.findAndCountAll({
             offset,
             limite
