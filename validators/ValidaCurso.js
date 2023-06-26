@@ -13,16 +13,16 @@ const CursoSchema = Joi.object({
         .required()
         .max(50),
     autor: Joi.number()
-        .integer
+        .integer()
         .required()
         .greater(0),
     categoria: Joi.number()
-        .integer
+        .integer()
         .required()
         .greater(0)
 })
 
-const AtualizaCursoSchema = joi.object({
+const AtualizaCursoSchema = Joi.object({
     id: Joi.number()
         .integer()
         .greater(0),
