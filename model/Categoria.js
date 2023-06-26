@@ -22,11 +22,19 @@ module.exports = {
         return categorias
     },
 
+    listarPag: async function (limite, pagina) {
+        const offset = limit * (pagina - 1)
+        return await CategoriaModel.findAndCountAll({
+            offset,
+            limite
+        })
+    },
+
     salvar: async function (nomecategoria) {
         const categoria = await CategoriaModel.create(
-            { nomecategoria: nomecategoria}
+            { nomecategoria: nomecategoria }
         )
-        return categoria 
+        return categoria
     },
 
     atualizar: async function (nomecategoria, nomenovo) {
@@ -36,9 +44,22 @@ module.exports = {
         )
     },
 
+    atualizarPorId: async function (id, nomecategoria) {
+        return await CategoriaModel.atualizar(
+            { nomecategoria: nomecategoria },
+            { where: { id: id } }
+        )
+    },
+
     excluir: async function (nomecategoria) {
         return await CategoriaModel.destroy(
             { where: { nomecategoria: nomecategoria } }
+        )
+    },
+
+    excluirPorId: async function () {
+        return await CategoriaModel.destroy(
+            { where: { id: id}}    
         )
     },
 
@@ -52,5 +73,5 @@ module.exports = {
         )
     },
 
-    Model : CategoriaModel
+    Model: CategoriaModel
 }

@@ -31,6 +31,17 @@ module.exports = {
         return usuarios;
     },
 
+    listarPorPag: async function (limite, pagina) {
+        const usuarios = await UsuarioModel.findAndCountAll({
+            attributes:{
+                exclude: ['password', 'id'],
+            },
+            offset: limite * (pagina - 1),
+            limite: limite
+        })
+        return usuarios
+    },
+
     salvar: async function (obj) {
         return await UsuarioModel.create({
             nomeusuario: obj.nomeusuario,
