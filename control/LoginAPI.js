@@ -5,6 +5,10 @@ const ValidaUsuario = require('../validators/ValidaUsuario')
 const jwt = require('jsonwebtoken')
 const path = require('path');
 
+router.get('/', (req, res) =>{
+    res.sendFile(path.resolve(__dirname, '../view/index.html'));
+})
+
 router.post('/login', ValidaUsuario.validaUsuario, async (req, res) => {
     try {
         const { nomeusuario, senha } = req.body;
