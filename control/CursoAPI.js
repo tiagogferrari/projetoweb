@@ -3,7 +3,7 @@ const router = express.Router()
 const CursoModel = require('../model/Curso')
 const ValidaCurso = require('../validators/ValidaCurso')
 const Autenticacao = require('../helpers/Autenticacao')
-const {sucess, fail} = require("../helpers/resp")
+const { sucess, fail } = require("../helpers/resp")
 
 router.get('/listar', Autenticacao.autenticador, async (req, res) => {
     try {
@@ -25,9 +25,9 @@ router.get('/listar/categoria', Autenticacao.autenticador, async (req, res) => {
     try {
         const limite = parseInt(req.query.limite) || 10
         const pagina = parseInt(req.query.pagina) || 1
-        const filterId = parseInt(req.query.filterId) || 1
+        const categoriaId = parseInt(req.query.categoriaId) || 1
 
-        if (limite === 5 || limite === 10 || limite === 30) {
+        if (limite == 5 || limite == 10 || limite == 30) {
             const lista = await CursoModel.listarPagCat(limite, pagina, categoriaId);
             res.json(lista);
         } else {
@@ -44,7 +44,7 @@ router.get('/listar/autor', Autenticacao.autenticador, async (req, res) => {
     const autorId = parseInt(req.query.autorId) || 1
 
     try {
-        if (limite === 5 || limite === 10 || limite === 30) {
+        if (limite == 5 || limite == 10 || limite == 30) {
             const lista = await CursoModel.listarPagAut(limite, pagina, autorId);
             res.json(lista);
         } else {
@@ -84,16 +84,16 @@ router.post('/criar', ValidaCurso.validaCurso, Autenticacao.autenticador, Autent
         .catch(erro => {
             res.status(401).json(fail("Falha ao criar curso: " + erro.message));
         });
-})
+});
 
 router.delete('/deletar', Autenticacao.autenticador, Autenticacao.autenticadorAdmin, (req, res) => {
     const nomecurso = req.query.nomecurso;
     const id = parseInt(req.query.id);
 
     if (nomecurso != null && nomecurso != '') {
-        ProductModel.delete(nomecurso)
+        CursoModel.excluir(nomecurso)
             .then(curso => {
-                res.json(success("O curso foi deletado!"));
+                res.json(sucess("O curso foi deletado!"));
             })
             .catch(erro => {
                 res.status(400).json(fail("Não foi possível deletar curso: " + erro.message));
@@ -101,7 +101,7 @@ router.delete('/deletar', Autenticacao.autenticador, Autenticacao.autenticadorAd
     } else if (id != null && id != '') {
         CursoModel.excluirPorId(id)
             .then(curso => {
-                res.json(success("O curso foi deletado!"));
+                res.json(sccess("O curso foi deletado!"));
             })
             .catch(erro => {
                 res.status(400).json(fail("Não foi possível deletar curso: " + erro.message));
@@ -117,7 +117,6 @@ router.put('/atualizar', ValidaCurso.validaCurso, Autenticacao.autenticador, Aut
 
     try {
         let curso;
-        let descricao;
 
         if (nomecurso != null && nomecurso !== '') {
             curso = await CursoModel.atualizar(nomecurso, req.body);
@@ -130,7 +129,7 @@ router.put('/atualizar', ValidaCurso.validaCurso, Autenticacao.autenticador, Aut
             return;
         }
 
-        res.json(success(message));
+        res.json(sucess(message));
     } catch (error) {
         res.status(400).json(fail("Erro ao atualizar curso: " + error.message));
     }

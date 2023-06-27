@@ -52,7 +52,7 @@ module.exports = {
             where: {
                 categoria: categoriaId
             },
-            offset: limite * (pag - 1),
+            offset: limite * (pagina - 1),
             limite: limite
         })
         return curso
@@ -63,10 +63,10 @@ module.exports = {
             where: {
                 autor: autorId
             },
-            offset: limite * (pag - 1),
+            offset: limite * (pagina - 1),
             limite: limite
         });
-        return products;
+        return curso;
     },
 
     salvar: async function (nomecurso, descricao, autor, categoria) {
@@ -92,7 +92,7 @@ module.exports = {
     },
 
     atualizar: async function (nomecurso, obj) {
-        return await CursoModel.atualizar(
+        return await CursoModel.update(
             { nomecurso: obj.nomecurso, descricao: obj.descricao },
             { where: { nomecurso: nomecurso } })
     },
@@ -104,20 +104,6 @@ module.exports = {
         )
     },
 
-    /*
-    inscrever: async function (idusuario, idcurso) {
-        try {
-            const inscricao = await UsuariocursoModel.create({
-                usuarioId: idusuario,
-                cursoId: idcurso
-            });
-            return inscricao;
-        } catch (error) {
-            console.error("Erro ao criar inscrição:", error);
-            throw error;
-        }
-    },
-    */
     mudarNome: async function (nomecurso, nomenovo) {
         return await CursoModel.mudanome(
             { nomecurso: nomenovo },

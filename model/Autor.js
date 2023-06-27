@@ -21,7 +21,7 @@ module.exports = {
         return autores
     },
 
-    listarPag: async function (limite, paginas) {
+    listarPag: async function (limite, pagina) {
         const autor = await AutorModel.findAndCountAll({
             offset: limite * (pagina - 1),
             limite: limite
@@ -37,7 +37,7 @@ module.exports = {
     },
 
     atualizar: async function (nomeautor, nomenovo) {
-        return await AutorModel.atualizar(
+        return await AutorModel.update(
             { nomeautor: nomenovo },
             { where: { nomeautor: nomeautor } }
         )

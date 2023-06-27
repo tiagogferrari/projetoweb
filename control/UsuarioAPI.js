@@ -19,7 +19,7 @@ router.put('/atualizar', ValidaUsuario.validaUsuario, Autenticacao.autenticador,
         const obj = { nomeusuario: req.body.nomeusuario, senha: req.body.senha };
         const usuario = await UsuarioModel.buscarNome(req.user.nomeusuario);
         const resp = await UsuarioModel.atualizar(usuario.nomeusuario, obj);
-        res.json(success('A alteração foi um sucesso!'));
+        res.json(sucess('A alteração foi um sucesso!'));
     } catch (error) {
         res.status(400).json(fail('Erro ao alterar: ' + error.message));
     }
@@ -30,11 +30,11 @@ router.delete('/deletar', Autenticacao.autenticador, async (req, res) => {
 
     if (nomeusuario != null && nomeusuario != '') {
         try {
-            const usuario = await UsuarioModel.buscarNome(username);
+            const usuario = await UsuarioModel.buscarNome(nomeusuario);
 
-            if (req.user.nomeusuario === usuario.nomeusuario) {
+            if (req.usuario.nomeusuario === usuario.nomeusuario) {
                 const resultado = await UsuarioModel.excluir(usuario.nomeusuario);
-                res.json(success("Excluiu: " + usuario.nomeusuario + "com êxito!"));
+                res.json(sucess("Excluiu: " + usuario.nomeusuario + "com êxito!"));
             } else {
                 res.status(401).json(fail('Não foi possível deletar!'));
             }

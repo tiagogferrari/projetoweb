@@ -1,6 +1,5 @@
 const { DataTypes } = require("sequelize")
 const sequelize = require("../helpers/bd")
-const { func } = require("joi")
 
 const UsuarioModel = sequelize.define('Usuario', {
     id: {
@@ -51,21 +50,21 @@ module.exports = {
     },
 
     atualizar: async function (nomeusuario, obj) {
-        return await UsuarioModel.atualizar(
+        return await UsuarioModel.update(
             { nomeusuario: obj.nomeusuario, senha: obj.senha },
             { where: { nomeusuario: nomeusuario } }
         )
     },
 
     trocarNome: async function (nomeusuario, nomeusuario) {
-        return await UsuarioModel.atualizar(
+        return await UsuarioModel.update(
             { nomeusuario: nomeusuario },
             { where: { nomeusuario: nomeusuario } }
         )
     },
 
     trocarSenha: async function (nomeusuario, senha) {
-        return await UsuarioModel.atualizar(
+        return await UsuarioModel.update(
             { senha: senha },
             { where: { nomeusuario: nomeusuario } }
         )
