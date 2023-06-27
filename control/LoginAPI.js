@@ -1,9 +1,17 @@
 const express = require('express')
+
+//criar um roteador no Express que fornece métodos para definir rotas e lidar com as solicitações HTTP
 const router = express.Router()
+
+//importa modelos necessários
 const UsuarioModel = require('../model/Usuario')
 const ValidaUsuario = require('../validators/ValidaUsuario')
 const { sucess, fail } = require("../helpers/resp")
+
+//jsonwebtoken; uma biblioteca popular utilizada para geração e verificação de JSON 
 const jwt = require('jsonwebtoken')
+
+//módulo path; incorporado no Node.js que fornece utilitários para trabalhar com caminhos de arquivos e diretórios
 const path = require('path');
 
 //se o usuario já tiver cadastro realiza o login
@@ -38,4 +46,5 @@ router.post('/cadastro', ValidaUsuario.validaUsuario, async (req, res) => {
   }
 });
 
+//exporta o objeto router e torná-lo acessível em outros arquivos do seu projeto
 module.exports = router

@@ -1,17 +1,21 @@
+//importar o módulo DataType do pacote sequelize 
 const { DataTypes } = require("sequelize")
+
+//importa modelos necessários
 const sequelize = require("../helpers/bd")
 const UsuarioModel = require("./Usuario").Model
 const CursoModel = require("./Curso").Model
 
 const UsuariocursoModel = sequelize.define('Usuariocurso', {
-
 })
 
+//chaves estrangeiras
 UsuariocursoModel.belongsTo(UsuarioModel, {
     foreignKey: 'usuario'
 })
 UsuarioModel.hasMany(UsuariocursoModel, { foreignKey: 'usuario' })
 
+//chaves estrangeiras
 UsuariocursoModel.belongsTo(CursoModel, {
     foreignKey: 'curso'
 })

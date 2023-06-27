@@ -1,4 +1,6 @@
 const UsuarioModel = require('../model/Usuario')
+
+//jsonwebtoken; uma biblioteca popular utilizada para geração e verificação de JSON 
 const jwt = require('jsonwebtoken')
 
 module.exports = {

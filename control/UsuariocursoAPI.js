@@ -1,5 +1,9 @@
 const express = require('express')
+
+//criar um roteador no Express que fornece métodos para definir rotas e lidar com as solicitações HTTP
 const router = express.Router()
+
+//importa modelos necessários
 const UsuariocursoModel = require('../model/Usuariocurso')
 const Autenticacao = require('../helpers/Autenticacao')
 const {sucess, fail} = require("../helpers/resp")
@@ -79,5 +83,5 @@ router.delete('/desinscrever', Autenticacao.autenticador, (req, res) => {
     });
 });
 
-
+//exporta o objeto router e torná-lo acessível em outros arquivos do seu projeto
 module.exports = router

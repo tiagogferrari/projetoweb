@@ -1,9 +1,13 @@
+//importar o módulo DataType do pacote sequelize 
 const { DataTypes } = require("sequelize")
+
+//biblioteca ORM para interagir com bancos de dados relacionais, como MySQL
 const sequelize = require("../helpers/bd")
-const { func } = require("joi")
+
+//const { func } = require("joi")
+//importa modelos necessários
 const AutorModel = require("./Autor").Model
 const CategoriaModel = require("./Categoria").Model
-//const UsuariocursoModel = require("./Usuariocurso").Model
 
 const CursoModel = sequelize.define('Curso', {
     id: {

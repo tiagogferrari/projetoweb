@@ -1,7 +1,10 @@
 const express = require("express")
-const router = express.Router()
-const sequelize = require("../helpers/bd")
 
+//criar um roteador no Express que fornece métodos para definir rotas e lidar com as solicitações HTTP
+const router = express.Router()
+
+//importa modelos necessários
+const sequelize = require("../helpers/bd")
 const UsuarioModel = require('../model/Usuario')
 const AutorModel = require('../model/Autor')
 const CategoriaModel = require('../model/Categoria')
@@ -50,5 +53,6 @@ router.get('/', async (req, res) => {
     res.json('BD instalado!')
 })
 
+//exporta o objeto router e torná-lo acessível em outros arquivos do seu projeto
 module.exports = router
 

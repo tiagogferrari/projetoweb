@@ -1,6 +1,8 @@
+//módulo joi; pacote utilizado para validação de dados em JavaScript
 const Joi = require("joi")
 const AutorModel = require('../model/Autor')
 
+//cria módulo de validação customizado
 const validaAutorExistente = async (id) => {
     const autor = await AutorModel.buscarId(id);
     if (!autor) {
@@ -8,6 +10,7 @@ const validaAutorExistente = async (id) => {
     }
 };
 
+//cria um esquema de validação usando o módulo Joi para validar objetos do tipo definido
 const CursoSchema = Joi.object({
     id: Joi.number()
         .integer()
@@ -31,6 +34,7 @@ const CursoSchema = Joi.object({
         .greater(0)
 })
 
+//cria um esquema de validação usando o módulo Joi para validar objetos do tipo definido
 const AtualizaCursoSchema = Joi.object({
     id: Joi.number()
         .integer()

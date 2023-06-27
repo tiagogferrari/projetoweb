@@ -1,3 +1,4 @@
+//funções utilizadas para retornar respostas padronizadas de sucesso ou falha
 module.exports = {
     sucess: function(obj, nome) {
         let resp = {status: true}

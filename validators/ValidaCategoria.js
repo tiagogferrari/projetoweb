@@ -1,5 +1,7 @@
+//módulo joi; pacote utilizado para validação de dados em JavaScript
 const Joi = require("joi")
 
+//cria um esquema de validação usando o módulo Joi para validar objetos do tipo definido
 const CategoriaSchema = Joi.object({
     nomecategoria: Joi.string()
         .min(4)
