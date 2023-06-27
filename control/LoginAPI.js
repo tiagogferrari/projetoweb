@@ -2,12 +2,9 @@ const express = require('express')
 const router = express.Router()
 const UsuarioModel = require('../model/Usuario')
 const ValidaUsuario = require('../validators/ValidaUsuario')
+const {sucess, fail} = require("../helpers/resp")
 const jwt = require('jsonwebtoken')
 const path = require('path');
-
-router.get('/', (req, res) =>{
-    res.sendFile(path.resolve(__dirname, '../view/index.html'));
-})
 
 router.post('/login', ValidaUsuario.validaUsuario, async (req, res) => {
     try {
@@ -27,7 +24,7 @@ router.post('/login', ValidaUsuario.validaUsuario, async (req, res) => {
 
 router.post('/cadastro', ValidaUsuario.validaUsuario, async (req, res) => {
     try {
-      const usuario = await UsuarioModel.save(req.body);
+      const usuario = await UsuarioModel.salvar(req.body);
       const token = jwt.sign({ nomeusuario: usuario.nomeusuario, senha: usuario.senha }, process.env.SECRET, { expiresIn: "3h" });
       res.json(sucess(token, 'token'));
     } catch (error) {

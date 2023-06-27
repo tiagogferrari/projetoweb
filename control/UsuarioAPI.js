@@ -3,8 +3,9 @@ const router = express.Router()
 const UsuarioModel = require('../model/Usuario')
 const ValidaUsuario = require('../validators/ValidaUsuario')
 const Autenticacao = require('../helpers/Autenticacao')
+const {sucess, fail} = require("../helpers/resp")
 
-router.get('/listar', Autenticacao.autenticador, async (req, res) => {
+router.get('/verificar', Autenticacao.autenticador, async (req, res) => {
     try {
         const verificaAdmin = await UsuarioModel.verificarAdm(req.user.nomeusuario);
         return res.json({ status: true, nomeusuario: req.user.nomeusuario, verificaAdmin });

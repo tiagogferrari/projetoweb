@@ -3,6 +3,7 @@ const router = express.Router()
 const CursoModel = require('../model/Curso')
 const ValidaCurso = require('../validators/ValidaCurso')
 const Autenticacao = require('../helpers/Autenticacao')
+const {sucess, fail} = require("../helpers/resp")
 
 router.get('/listar', Autenticacao.autenticador, async (req, res) => {
     try {

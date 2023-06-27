@@ -3,6 +3,7 @@ const router = express.Router()
 const UsuarioModel = require('../model/Usuario')
 const ValidaUsuario = require('../validators/ValidaUsuario')
 const Autenticacao = require('../helpers/Autenticacao')
+const {sucess, fail} = require("../helpers/resp")
 
 router.get('/', Autenticacao.autenticador, Autenticacao.autenticadorAdmin, async (req, res) => {
     try {
@@ -19,9 +20,9 @@ router.post('/criar', ValidaUsuario.validaUsuario, Autenticacao.autenticador, Au
 
         if (req.body.administrador === true) {
             await UsuarioModel.tornarAdm(usuario.nomeusuario);
-            res.json(success('Criou um administrador'));
+            res.json(sucess('Criou um administrador'));
         } else {
-            res.json(success('Criou usuario'));
+            res.json(sucess('Criou usuario'));
         }
     } catch (error) {
         res.status(401).json(fail('Erro ao criar'));
@@ -79,7 +80,7 @@ router.put('/atualizar', ValidaUsuario.validaUsuario, Autenticacao.autenticador,
 
                 if (usuario.administrador !== true || req.user.nomeusuario === user.nomeusuario) {
                     const atualizaUsuario = await UsuarioModel.atualizar(user.nomeusuario, obj);
-                    res.json(success('Usuario alterado!'));
+                    res.json(sucess('Usuario alterado!'));
                 } else {
                     res.status(401).json(fail('Você não pode alterar esse usuário'));
                 }

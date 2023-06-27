@@ -10,7 +10,6 @@ const UsuariocursoModel = require('../model/Usuariocurso')
 
 router.get('/', async (req, res) => {
     await sequelize.sync({ force: true })
-    res.json({ status: false, msg: "Banco Instalado" })
     try {
 
         await UsuarioModel.salvar({ nomeusuario: 'tiago', senha: 'tiago' })
@@ -45,9 +44,9 @@ router.get('/', async (req, res) => {
         await UsuariocursoModel.salvarObjeto({ usuario: 5, curso: 1 })
 
     } catch (error) {
-        console.log("Erro ao instalar BD")
+        res.json('Erro ao instalar Banco de Dados' + error.name)
     }
-    console.log("BD instalado")
+    res.json('BD instalado!')
 })
 
 module.exports = router
