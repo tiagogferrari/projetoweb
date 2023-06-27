@@ -10,7 +10,7 @@ module.exports = {
         }
 
         //retorna um array com a palavra bearer e o valor do token separados
-        const [bearer, tokenValue] = token.split('')
+        const [bearer, tokenValue] = token.split(' ')
         if (bearer !== 'Bearer') {
             return res.status(400).json({ status: false, mensagem: 'Não é Bearer' })
         }

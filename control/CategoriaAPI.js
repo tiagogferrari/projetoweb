@@ -5,7 +5,7 @@ const ValidaCategoria = require('../validators/ValidaCategoria')
 const Autenticacao = require('../helpers/Autenticacao')
 const {sucess, fail} = require("../helpers/resp")
 
-router.get('listar', Autenticacao.autenticador, (req, res) => {
+router.get('/listar', Autenticacao.autenticador, (req, res) => {
     const limite = parseInt(req.query.limite) || 10
     const pagina = parseInt(req.query.pagina) || 1
 
@@ -17,7 +17,7 @@ router.get('listar', Autenticacao.autenticador, (req, res) => {
         .then(lista => {
             res.json(lista)
         })
-        .catch(() => {
+        .catch(error => {
             res.sendStatus(400).json(fail("Não foi possível listar" + error.message))
         });
 })
@@ -57,7 +57,7 @@ router.put('/atualizar', ValidaCategoria.validaNome, Autenticacao.autenticador, 
 
         if (nomecategoria != null && nomecategoria != '') {
             const categoria = await CategoriaModel.atualizar(nomecategoria, req.body.nomecategoria);
-            res.json(sucess("Categoria " + categoria.nomecategoria + "alterada!"));
+            res.json(sucess("Categoria alterada!"));
         } else if (id != null && id != '') {
             const categoria = await CategoriaModel.atualizarPorId(id, req.body.nomecategoria);
             res.json(sucess("Categoria " + categoria.nomecategoria + "alterada!"));
@@ -75,17 +75,18 @@ router.delete('/deletar', Autenticacao.autenticador, Autenticacao.autenticadorAd
 
     try {
         if (nomecategoria != null && nomecategoria != '') {
-            await CategoriaModel.excluir(nomecategoria);
-            res.json(sucess("Categoria" + categoria.nomecategoria + "excluida!"));
+            const categoria = await CategoriaModel.excluir(nomecategoria);
+            res.json(sucess("Categoria excluída!"));
         } else if (id != null && id != '') {
-            await CategoriaModel.excluirPorId(id);
-            res.json(sucess("Categoria" + categoria.nomecategoria + "excluida!"));
+            const categoria = await CategoriaModel.excluirPorId(id);
+            res.json(sucess("Categoria  excluída!"));
         } else {
-            res.status(416).json(fail("Digite o nome ou id"));
+            res.status(416).json(fail("Digite o nome ou o id da categoria"));
         }
     } catch (error) {
-        res.status(400).json(fail("Falha ao alterar!:" + error.message));
+        res.status(400).json(fail("Falha ao deletar: " + error.message));
     }
-})
+});
+
 
 module.exports = router

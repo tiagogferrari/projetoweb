@@ -38,7 +38,7 @@ module.exports = {
     },
 
     atualizar: async function (nomecategoria, nomenovo) {
-        return await CategoriaModel.atualizar(
+        return await CategoriaModel.update(
             { nomecategoria: nomenovo },
             { where: { nomecategoria: nomecategoria } }
         )
