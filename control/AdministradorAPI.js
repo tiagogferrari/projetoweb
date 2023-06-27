@@ -18,7 +18,7 @@ router.post('/criar', ValidaUsuario.validaUsuario, Autenticacao.autenticador, Au
     try {
         const usuario = await UsuarioModel.salvar(req.body);
 
-        if (req.body.administrador === true) {
+        if (req.body.administrador == true) {
             await UsuarioModel.tornarAdm(usuario.nomeusuario);
             res.json(sucess('Criou um administrador'));
         } else {
@@ -56,7 +56,7 @@ router.get('/buscar', Autenticacao.autenticador, Autenticacao.autenticadorAdmin,
             const usuario = await UsuarioModel.buscarNome(nomeusuario);
 
             if (usuario != null) {
-                res.json({ status: true, nomeusuario: user.nomeusuario, administrador: user.administrador });
+                res.json({ status: true, nomeusuario: usuario.nomeusuario, administrador: usuario.administrador });
             } else {
                 res.status(400).json(fail('Não foi possivel buscar esse usuário'));
             }
@@ -68,7 +68,7 @@ router.get('/buscar', Autenticacao.autenticador, Autenticacao.autenticadorAdmin,
     }
 })
 
-router.put('/atualizar', ValidaUsuario.validaUsuario, Autenticacao.autenticador, Autenticacao.autenticador, async (req, res) => {
+router.put('/atualizar', ValidaUsuario.validaUsuario, Autenticacao.autenticador, Autenticacao.autenticadorAdmin, async (req, res) => {
     try {
         const nomeusuario = req.query.nomeusuario;
 
@@ -78,8 +78,8 @@ router.put('/atualizar', ValidaUsuario.validaUsuario, Autenticacao.autenticador,
             if (usuario) {
                 const obj = { nomeusuario: req.body.nomeusuario, senha: req.body.senha };
 
-                if (usuario.administrador !== true || req.user.nomeusuario === user.nomeusuario) {
-                    const atualizaUsuario = await UsuarioModel.atualizar(user.nomeusuario, obj);
+                if (!usuario.administrador || req.usuario.nomeusuario === usuario.nomeusuario) {
+                    const atualizaUsuario = await UsuarioModel.atualizar(usuario.nomeusuario, obj);
                     res.json(sucess('Usuario alterado!'));
                 } else {
                     res.status(401).json(fail('Você não pode alterar esse usuário'));
@@ -103,9 +103,9 @@ router.delete('/deletar', Autenticacao.autenticador, Autenticacao.autenticadorAd
             const usuario = await UsuarioModel.buscarNome(nomeusuario);
 
             if (usuario) {
-                if (usuario.administrador !== true || req.user.nomeusuario === user.nomeusuario) {
+                if (usuario.administrador != true || req.usuario.nomeusuario == usuario.nomeusuario) {
                     const result = await UsuarioModel.excluir(usuario.nomeusuario);
-                    res.json(success("Usuario excluido!"));
+                    res.json(sucess("Usuario excluido!"));
                 } else {
                     res.status(401).json(fail('Você não pode deletar esse usuário'));
                 }

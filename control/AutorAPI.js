@@ -43,8 +43,8 @@ router.get('/buscar', ValidaAutor.validaNome, Autenticacao.autenticador, async (
 
 router.post('/criar', ValidaAutor.validaNome, Autenticacao.autenticador, Autenticacao.autenticadorAdmin, async (req, res) => {
     try {
-        const autor = await AutorModel.save(req.body.nomeautor);
-        res.json(success('Autor inserido!:' + autor.nomeautor));
+        const autor = await AutorModel.salvar(req.body.nomeautor);
+        res.json(sucess('Autor inserido!:' + autor.nomeautor));
     } catch (error) {
         res.status(400).json(fail('Erro na inserção: ' + error.message));
     }
@@ -57,14 +57,14 @@ router.put('/atualizar', ValidaAutor.validaNome, Autenticacao.autenticador, Aute
     if (nomeautor) {
         try {
             const autor = await AutorModel.atualizar(nomeautor, req.body.nomeautor);
-            res.json(success("Alterou o autor" + autor.nomeautor));
+            res.json(sucess("Alterou o autor "));
         } catch (error) {
             res.status(400).json(fail("Erro ao alterar! Verifique os dados" + error.message));
         }
     } else if (id) {
         try {
             const autor = await AutorModel.atualizarPorId(id, req.body.nomeautor);
-            res.json(success("Alterou o autor" + autor.nomeautor));
+            res.json(sucess("Alterou o autor" + autor.nomeautor));
         } catch (error) {
             res.status(400).json(fail("Erro ao alterar! Verifique os dados" + error.message));
         }
@@ -73,14 +73,14 @@ router.put('/atualizar', ValidaAutor.validaNome, Autenticacao.autenticador, Aute
     }
 })
 
-router.delete('/excluir', Autenticacao.autenticador, Autenticacao.autenticadorAdmin, async (req, res) => {
+router.delete('/deletar', Autenticacao.autenticador, Autenticacao.autenticadorAdmin, async (req, res) => {
     const nomeautor = req.query.nomeautor;
     const id = parseInt(req.query.id);
 
     if (nomeautor) {
         try {
-            const autor = await AutorModel.delete(nomeautor);
-            res.json(success("Excluiu o autor" + autor.nomeautor));
+            const autor = await AutorModel.excluir(nomeautor);
+            res.json(sucess("Excluiu o autor"));
         } catch (error) {
             res.status(400).json(fail("Erro ao excluir! Verifique os dados" + error.message));
         }
