@@ -2,7 +2,7 @@ const Joi = require("joi")
 
 const AutorSchema = Joi.object({
     nomeautor: Joi.string()
-        .min(2)
+        .min(3)
         .required()
         .max(25),
 })
