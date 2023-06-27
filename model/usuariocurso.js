@@ -51,11 +51,11 @@ module.exports = {
         return inscricao
     },
 
-    excluirId: async function (idusuario, idcurso) {
+    excluirId: async function (obj) {
         await UsuariocursoModel.destroy({
             where: {
-                usuario: idusuario,
-                curso: idcurso
+                usuario: obj.usuario,
+                curso: obj.curso
             }
         });
     },

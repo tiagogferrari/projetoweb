@@ -4,6 +4,7 @@ const UsuariocursoModel = require('../model/Usuariocurso')
 const Autenticacao = require('../helpers/Autenticacao')
 const {sucess, fail} = require("../helpers/resp")
 
+//lista as inscrições realizadas
 router.get('/listar', Autenticacao.autenticador, async (req, res) => {
     try {
         const limite = parseInt(req.query.limite) || 10
@@ -20,6 +21,7 @@ router.get('/listar', Autenticacao.autenticador, async (req, res) => {
     }
 })
 
+//busca uma inscrição pelo id do usuario
 router.get('/buscar/usuario', Autenticacao.autenticador, Autenticacao.autenticadorAdmin, async (req, res) => {
     const id = req.query.id;
 
@@ -39,6 +41,7 @@ router.get('/buscar/usuario', Autenticacao.autenticador, Autenticacao.autenticad
     }
 })
 
+//busca uma inscrição pelo id do curso
 router.get('/buscar/curso', Autenticacao.autenticador, Autenticacao.autenticadorAdmin, async (req, res) => {
     const id = req.query.id;
 
@@ -58,6 +61,7 @@ router.get('/buscar/curso', Autenticacao.autenticador, Autenticacao.autenticador
     }
 })
 
+//realiza a inscrição em um curso
 router.post('/inscrever', Autenticacao.autenticador, (req, res) => {
     UsuariocursoModel.salvarObjeto(req.body).then(inscricao => {
         res.json(sucess("Inscrição realizada!"))
@@ -66,20 +70,14 @@ router.post('/inscrever', Autenticacao.autenticador, (req, res) => {
     })
 })
 
-router.delete('/desinscrever', Autenticacao.autenticador, async (req, res) => {
-    const idusuario = req.query.idusuario;
-    const idcurso = req.query.idcurso;
-
-    if (idusuario != null && idcurso != null) {
-        try {
-            await excluirId(idusuario, idcurso);
-            res.json(sucess("Inscrição cancelada com sucesso"));
-        } catch (error) {
-            res.status(400).json(fail("Erro ao excluir a inscrição"));
-        }
-    } else {
-        res.status(412).json(fail("Informe o id do usuario e do curso"));
-    }
+//cancela a inscrição em um curso
+router.delete('/desinscrever', Autenticacao.autenticador, (req, res) => {
+    UsuariocursoModel.excluirId(req.body).then(desinscricao => {
+        res.json(sucess("Desinscrição realizada!"));
+    }).catch(erro => {
+        res.status(401).json(fail("Falha ao desinscrever-se"));
+    });
 });
+
 
 module.exports = router

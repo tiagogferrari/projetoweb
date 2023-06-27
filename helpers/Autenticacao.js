@@ -25,6 +25,7 @@ module.exports = {
                 { nomeusuario: usuario.nomeusuario, senha: usuario.senha }
             )
             
+            //envia uma resposta de erro de validação ou repassa os dados validados para o próximo middleware/manipulador de rota.
             if (registrado){
                 next()
             } else {

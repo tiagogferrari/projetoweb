@@ -5,6 +5,7 @@ const ValidaCurso = require('../validators/ValidaCurso')
 const Autenticacao = require('../helpers/Autenticacao')
 const { sucess, fail } = require("../helpers/resp")
 
+//lista os cursos existentes
 router.get('/listar', Autenticacao.autenticador, async (req, res) => {
     try {
         const limite = parseInt(req.query.limite) || 10
@@ -21,6 +22,7 @@ router.get('/listar', Autenticacao.autenticador, async (req, res) => {
     }
 })
 
+//lista os cursos filtrando pelo id da categoria
 router.get('/listar/categoria', Autenticacao.autenticador, async (req, res) => {
     try {
         const limite = parseInt(req.query.limite) || 10
@@ -38,6 +40,7 @@ router.get('/listar/categoria', Autenticacao.autenticador, async (req, res) => {
     }
 })
 
+//lista os cursos filtrando pelo id do autor
 router.get('/listar/autor', Autenticacao.autenticador, async (req, res) => {
     const limite = parseInt(req.query.limite) || 10
     const pagina = parseInt(req.query.pagina) || 1
@@ -55,6 +58,7 @@ router.get('/listar/autor', Autenticacao.autenticador, async (req, res) => {
     }
 })
 
+//busca um curso pelo nome do curso
 router.get('/buscar', Autenticacao.autenticador, Autenticacao.autenticadorAdmin, async (req, res) => {
     const nomecurso = req.query.nomecurso;
 
@@ -74,18 +78,19 @@ router.get('/buscar', Autenticacao.autenticador, Autenticacao.autenticadorAdmin,
     }
 })
 
+//cria um curso
 router.post('/criar', ValidaCurso.validaCurso, Autenticacao.autenticador, Autenticacao.autenticadorAdmin, (req, res) => {
-    const curso = req.body;
 
-    CursoModel.salvarObjeto(curso)
+    CursoModel.salvarObjeto(req.body)
         .then(curso => {
-            res.json(sucess("O curso " + curso.nomecurso + " foi cadastrado!"));
+            res.json(sucess("O curso foi cadastrado!"));
         })
         .catch(erro => {
             res.status(401).json(fail("Falha ao criar curso: " + erro.message));
         });
 });
 
+//deleta um curso pelo nome do curso ou id
 router.delete('/deletar', Autenticacao.autenticador, Autenticacao.autenticadorAdmin, (req, res) => {
     const nomecurso = req.query.nomecurso;
     const id = parseInt(req.query.id);
@@ -111,6 +116,7 @@ router.delete('/deletar', Autenticacao.autenticador, Autenticacao.autenticadorAd
     }
 })
 
+//atualiza um curso pelo nome do curso ou id
 router.put('/atualizar', ValidaCurso.validaCurso, Autenticacao.autenticador, Autenticacao.autenticadorAdmin, async (req, res) => {
     const nomecurso = req.query.nomecurso;
     const id = parseInt(req.query.id);

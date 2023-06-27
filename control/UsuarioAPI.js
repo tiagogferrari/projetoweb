@@ -5,19 +5,21 @@ const ValidaUsuario = require('../validators/ValidaUsuario')
 const Autenticacao = require('../helpers/Autenticacao')
 const {sucess, fail} = require("../helpers/resp")
 
+//verifica permissoes
 router.get('/verificar', Autenticacao.autenticador, async (req, res) => {
     try {
-        const verificaAdmin = await UsuarioModel.verificarAdm(req.user.nomeusuario);
-        return res.json({ status: true, nomeusuario: req.user.nomeusuario, verificaAdmin });
+        const verificaAdmin = await UsuarioModel.verificarAdm(req.usuario.nomeusuario);
+        return res.json({ status: true, nomeusuario: req.usuario.nomeusuario, verificaAdmin });
     } catch (error) {
         return res.status(500).json({ error: 'Erro ao verificar permissões do usuário' });
     }
 })
 
+//atualiza o usuario
 router.put('/atualizar', ValidaUsuario.validaUsuario, Autenticacao.autenticador, async (req, res) => {
     try {
         const obj = { nomeusuario: req.body.nomeusuario, senha: req.body.senha };
-        const usuario = await UsuarioModel.buscarNome(req.user.nomeusuario);
+        const usuario = await UsuarioModel.buscarNome(req.usuario.nomeusuario);
         const resp = await UsuarioModel.atualizar(usuario.nomeusuario, obj);
         res.json(sucess('A alteração foi um sucesso!'));
     } catch (error) {
@@ -25,6 +27,7 @@ router.put('/atualizar', ValidaUsuario.validaUsuario, Autenticacao.autenticador,
     }
 })
 
+//deleta o usuario
 router.delete('/deletar', Autenticacao.autenticador, async (req, res) => {
     const nomeusuario = req.query.nomeusuario;
 

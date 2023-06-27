@@ -6,7 +6,6 @@ const sequelize = require("./helpers/bd")
 const app = express()
 app.use(express.json())
 
-app.use(express.json())
 app.use('/install', require("./control/InstallAPI"))
 app.use('/administrador', require("./control/AdministradorAPI"))
 app.use('/autor', require("./control/AutorAPI"))

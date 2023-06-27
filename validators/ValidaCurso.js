@@ -7,7 +7,7 @@ const CursoSchema = Joi.object({
     nomecurso: Joi.string()
         .min(4)
         .required()
-        .max(25),
+        .max(30),
     descricao: Joi.string()
         .min(5)
         .required()
@@ -37,6 +37,8 @@ const AtualizaCursoSchema = Joi.object({
 })
 
 module.exports = {
+    /*Valida o objeto req.body usando o CursoSchema e envia uma resposta de erro de
+    validação ou repassa os dados validados para o próximo middleware/manipulador de rota.*/
     validaCurso: function (req, res, next) {
         const { error, value } = CursoSchema.validate(req.body);
         if (error) {

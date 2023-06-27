@@ -89,6 +89,7 @@ module.exports = {
                 categoria: obj.categoria
             }
         )
+        return curso
     },
 
     atualizar: async function (nomecurso, obj) {

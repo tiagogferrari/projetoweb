@@ -5,6 +5,7 @@ const ValidaUsuario = require('../validators/ValidaUsuario')
 const Autenticacao = require('../helpers/Autenticacao')
 const {sucess, fail} = require("../helpers/resp")
 
+//Verifica se o usuário é administrador
 router.get('/', Autenticacao.autenticador, Autenticacao.autenticadorAdmin, async (req, res) => {
     try {
         const administrador = await UsuarioModel.verificarAdm(req.usuario.nomeusuario);
@@ -14,6 +15,7 @@ router.get('/', Autenticacao.autenticador, Autenticacao.autenticadorAdmin, async
     }
 })
 
+//Se o campo 'administrador' for true cria um administrador, caso contrário, cria usuário nomral
 router.post('/criar', ValidaUsuario.validaUsuario, Autenticacao.autenticador, Autenticacao.autenticadorAdmin, async (req, res) => {
     try {
         const usuario = await UsuarioModel.salvar(req.body);
@@ -29,6 +31,7 @@ router.post('/criar', ValidaUsuario.validaUsuario, Autenticacao.autenticador, Au
     }
 })
 
+//lista todos os usuarios
 router.get('/listar', Autenticacao.autenticador, Autenticacao.autenticadorAdmin, async (req, res) => {
 
     const limite = parseInt(req.query.limite) || 10; 
@@ -48,6 +51,7 @@ router.get('/listar', Autenticacao.autenticador, Autenticacao.autenticadorAdmin,
     }
 })
 
+//busca um usuario passando nome de usuario
 router.get('/buscar', Autenticacao.autenticador, Autenticacao.autenticadorAdmin, async (req, res) => {
     try {
         const nomeusuario = req.query.nomeusuario;
@@ -68,6 +72,7 @@ router.get('/buscar', Autenticacao.autenticador, Autenticacao.autenticadorAdmin,
     }
 })
 
+//se o usuário for administrador pode atualizar outros usuarios, se não só atualiza ele mesmo
 router.put('/atualizar', ValidaUsuario.validaUsuario, Autenticacao.autenticador, Autenticacao.autenticadorAdmin, async (req, res) => {
     try {
         const nomeusuario = req.query.nomeusuario;
@@ -95,6 +100,7 @@ router.put('/atualizar', ValidaUsuario.validaUsuario, Autenticacao.autenticador,
     }
 })
 
+//se o usuário for administrador pode deletar outros usuarios, se não só deleta ele mesmo
 router.delete('/deletar', Autenticacao.autenticador, Autenticacao.autenticadorAdmin, async (req, res) => {
     try {
         const nomeusuario = req.query.nomeusuario;

@@ -5,6 +5,7 @@ const ValidaCategoria = require('../validators/ValidaCategoria')
 const Autenticacao = require('../helpers/Autenticacao')
 const {sucess, fail} = require("../helpers/resp")
 
+//lista as categorias
 router.get('/listar', Autenticacao.autenticador, (req, res) => {
     const limite = parseInt(req.query.limite) || 10
     const pagina = parseInt(req.query.pagina) || 1
@@ -22,6 +23,7 @@ router.get('/listar', Autenticacao.autenticador, (req, res) => {
         });
 })
 
+//busca uma categoria pelo nome da categoria
 router.get('/buscar', ValidaCategoria.validaNome, Autenticacao.autenticador, (req, res) => {
     const nomecategoria = req.body.nomecategoria
 
@@ -40,6 +42,7 @@ router.get('/buscar', ValidaCategoria.validaNome, Autenticacao.autenticador, (re
         })
 })
 
+//cria uma categoria 
 router.post('/criar', ValidaCategoria.validaNome, Autenticacao.autenticador, Autenticacao.autenticadorAdmin, (req, res) => {
     CategoriaModel.salvar(req.body.nomecategoria)
         .then(categoria => {
@@ -50,6 +53,7 @@ router.post('/criar', ValidaCategoria.validaNome, Autenticacao.autenticador, Aut
         })
 })
 
+//Atualiza uma categoria pelo nome da categoria ou id
 router.put('/atualizar', ValidaCategoria.validaNome, Autenticacao.autenticador, Autenticacao.autenticadorAdmin, async (req, res) => {
     try {
         const nomecategoria = req.query.nomecategoria;
@@ -69,6 +73,7 @@ router.put('/atualizar', ValidaCategoria.validaNome, Autenticacao.autenticador, 
     }
 })
 
+//exclui uma categoria passando nome ou id
 router.delete('/deletar', Autenticacao.autenticador, Autenticacao.autenticadorAdmin, async (req, res) => {
     const nomecategoria = req.query.nomecategoria;
     const id = parseInt(req.query.id);

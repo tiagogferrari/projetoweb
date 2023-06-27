@@ -5,6 +5,10 @@ const ValidaAutor = require('../validators/ValidaAutor')
 const Autenticacao = require('../helpers/Autenticacao')
 const {sucess, fail} = require("../helpers/resp")
 
+/*funções com apenas Autenticacao.autenticador podem ser utilizadas por qualquer usuário,
+ mas as que tambem tem Autenticacao.autenticadorAdmin só podem ser utilizadas por admins*/
+
+//lista os autores
 router.get('/listar', Autenticacao.autenticador, async (req, res) => {
     const limite = parseInt(req.query.limite) || 10;
     const pagina = parseInt(req.query.pagina) || 1; 
@@ -21,6 +25,7 @@ router.get('/listar', Autenticacao.autenticador, async (req, res) => {
     }
 })
 
+//busca um autor pelo nome do autor 
 router.get('/buscar', ValidaAutor.validaNome, Autenticacao.autenticador, async (req, res) => {
     const nomeautor = req.body.nomeautor;
 
@@ -41,6 +46,7 @@ router.get('/buscar', ValidaAutor.validaNome, Autenticacao.autenticador, async (
     }
 })
 
+//cria um autor passando os atributos
 router.post('/criar', ValidaAutor.validaNome, Autenticacao.autenticador, Autenticacao.autenticadorAdmin, async (req, res) => {
     try {
         const autor = await AutorModel.salvar(req.body.nomeautor);
@@ -50,6 +56,7 @@ router.post('/criar', ValidaAutor.validaNome, Autenticacao.autenticador, Autenti
     }
 })
 
+//atualiza um autor pelo nome do autor ou id
 router.put('/atualizar', ValidaAutor.validaNome, Autenticacao.autenticador, Autenticacao.autenticadorAdmin, async (req, res) => {
     const nomeautor = req.query.nomeautor;
     const id = parseInt(req.query.id);
@@ -73,6 +80,7 @@ router.put('/atualizar', ValidaAutor.validaNome, Autenticacao.autenticador, Aute
     }
 })
 
+//exclui um autor pelo nome do autor ou id
 router.delete('/deletar', Autenticacao.autenticador, Autenticacao.autenticadorAdmin, async (req, res) => {
     const nomeautor = req.query.nomeautor;
     const id = parseInt(req.query.id);

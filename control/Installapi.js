@@ -8,6 +8,7 @@ const CategoriaModel = require('../model/Categoria')
 const CursoModel = require('../model/Curso')
 const UsuariocursoModel = require('../model/Usuariocurso')
 
+//realiza a instalação do banco de dados (criação das tabelas e inserção de dados no banco)
 router.get('/', async (req, res) => {
     await sequelize.sync({ force: true })
     try {
