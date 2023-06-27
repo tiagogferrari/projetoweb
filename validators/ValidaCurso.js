@@ -1,4 +1,12 @@
 const Joi = require("joi")
+const AutorModel = require('../model/Autor')
+
+const validaAutorExistente = async (id) => {
+    const autor = await AutorModel.buscarId(id);
+    if (!autor) {
+        throw new Error("Autor não encontrado");
+    }
+};
 
 const CursoSchema = Joi.object({
     id: Joi.number()
@@ -15,7 +23,8 @@ const CursoSchema = Joi.object({
     autor: Joi.number()
         .integer()
         .required()
-        .greater(0),
+        .greater(0)
+        .custom(validaAutorExistente),
     categoria: Joi.number()
         .integer()
         .required()
