@@ -6,7 +6,7 @@ const Autenticacao = require('../helpers/Autenticacao')
 const {sucess, fail} = require("../helpers/resp")
 
 /*funções com apenas Autenticacao.autenticador podem ser utilizadas por qualquer usuário,
- mas as que tambem tem Autenticacao.autenticadorAdmin só podem ser utilizadas por admins*/
+mas as que tambem tem Autenticacao.autenticadorAdmin só podem ser utilizadas por admins*/
 
 //lista os autores
 router.get('/listar', Autenticacao.autenticador, async (req, res) => {
