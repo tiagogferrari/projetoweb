@@ -18,7 +18,7 @@ const UsuarioModel = sequelize.define('Usuario', {
         type: DataTypes.STRING,
         allowNull: false,
     },
-    admnistrador: {
+    administrador: {
         type: DataTypes.BOOLEAN,
         defaultValue: false,
         allowNull: false,
@@ -46,6 +46,7 @@ module.exports = {
         return await UsuarioModel.create({
             nomeusuario: obj.nomeusuario,
             senha: obj.senha,
+            administrador: obj.administrador
         })
     },
 
@@ -103,20 +104,20 @@ module.exports = {
                 { where: { nomeusuario: nomeusuario } }
 
             )
-        ).admnistrador
+        ).administrador
 
     },
 
     tornarAdm: async function (nomeusuario) {
         return await UsuarioModel.update(
-            { admnistrador: true },
+            { administrador: true },
             { where: { nomeusuario: nomeusuario } }
         )
     },
 
     retirarAdm: async function (nomeusuario) {
         return await UsuarioModel.update(
-            { admnistrador: false },
+            { administrador: false },
             { where: { nomeusuario: nomeusuario } }
         )    
     },

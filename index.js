@@ -4,6 +4,7 @@ require("dotenv").config()
 const sequelize = require("./helpers/bd")
 
 const app = express()
+app.use(express.json())
 
 app.use(express.json())
 app.use('/install', require("./control/InstallAPI"))
