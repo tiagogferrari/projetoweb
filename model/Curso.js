@@ -78,6 +78,7 @@ module.exports = {
                 categoria: categoria
             }
         )
+        return curso
     },
 
     salvarObjeto: async function (obj) {
@@ -99,21 +100,21 @@ module.exports = {
     },
 
     atualizarPorId: async function (id, obj) {
-        return await CursoModel.atualizar(
+        return await CursoModel.update(
             { nomecurso: obj.nomecurso, descricao: obj.descricao },
             { where: { id: id } }
         )
     },
 
     mudarNome: async function (nomecurso, nomenovo) {
-        return await CursoModel.mudanome(
+        return await CursoModel.update(
             { nomecurso: nomenovo },
             { where: { nomecurso: nomecurso } }
         )
     },
 
     mudarDescricao: async function (descricao, descricaonova) {
-        return await CursoModel.mudardscricao(
+        return await CursoModel.update(
             { descricao: descricaonova },
             { where: { descricao: descricao } }
         )
