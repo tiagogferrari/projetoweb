@@ -34,7 +34,7 @@ module.exports = {
                 return res.status(401).json({status: false, mensagem: 'Dados errados'})
             }
         } catch (error) {
-            return res.status(401).json({status: false, mensagem: error.mensagem})
+            return res.status(401).json({status: false, mensagem: 'O token é invalido!'})
         }
     },
 

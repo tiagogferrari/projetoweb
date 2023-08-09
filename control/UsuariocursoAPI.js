@@ -66,13 +66,19 @@ router.get('/buscar/curso', Autenticacao.autenticador, Autenticacao.autenticador
 })
 
 //realiza a inscrição em um curso
-router.post('/inscrever', Autenticacao.autenticador, (req, res) => {
-    UsuariocursoModel.salvarObjeto(req.body).then(inscricao => {
-        res.json(sucess("Inscrição realizada!"))
-    }).catch(erro => {
-        res.status(401).json(fail("Falha ao inscrever-se"))
-    })
-})
+router.post('/inscrever', Autenticacao.autenticador, async (req, res) => {
+    try {
+      const inscricaoExistente = await UsuariocursoModel.buscarInscricao(req.body);
+      if (inscricaoExistente.length > 0) {
+        res.status(401).json(fail('Usuário já está inscrito neste curso'));
+      } else {
+        const inscricao = await UsuariocursoModel.salvarObjeto(req.body);
+        res.json(sucess('Inscrição realizada!'));
+      }
+    } catch (erro) {
+      res.status(401).json(fail('Falha ao inscrever-se'));
+    }
+  })
 
 //cancela a inscrição em um curso
 router.delete('/desinscrever', Autenticacao.autenticador, (req, res) => {

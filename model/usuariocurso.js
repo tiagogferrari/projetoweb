@@ -64,6 +64,16 @@ module.exports = {
         });
     },
 
+    buscarInscricao: async function (obj) {
+        const inscricao = await UsuariocursoModel.findAll({
+            where: {
+                usuario: obj.usuario,
+                curso: obj.curso
+            }
+        })
+        return inscricao
+    },
+
     buscarIdUsuario: async function (id) {
         return await UsuariocursoModel.findAndCountAll({
             where:
